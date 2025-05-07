@@ -1,0 +1,201 @@
+###Get the details of service document
+http://localhost:4004/odata/v4/CatalogService/
+
+
+
+
+###Get Service metadata
+http://localhost:4004/odata/v4/CatalogService/$metadata
+
+
+###Get All the records of employee
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+
+
+
+
+###Get data chunk by chunk - pagination
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$top=2&$skip=3
+
+
+###Get the count of records
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/$count
+
+
+###Single Employee Record by its KEY
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/02BD2137-0890-1EEA-A6C2-BB55C19807FB
+
+
+###Filter data by using $filter
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=bankName eq 'My Bank of New York'
+
+
+###Case filtering
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=contains(nameFirst, 'na')
+
+###Post data - save data using service
+POST http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+Content-Type: application/json
+
+{
+      "nameFirst": "Satish",
+      "nameMiddle": "",
+      "nameLast": "Desai",
+      "nameInitials": null,
+      "sex": "M",
+      "language": "P",
+      "phoneNumber": null,
+      "email": "test@example.com",
+      "loginName": "satishd",
+      "Currency_code": "INR",
+      "salaryAmount": 12345678.65,
+      "accountNumber": "4444558899",
+      "bankId": "16005885",
+      "bankName": "SBI Bank"
+}
+
+
+###Get the data of new employee - COPY THE ID FROM LAST CALL MANUALLY
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/76b243a7-996b-4d14-bb5f-444ee98f770f
+
+
+###PATCH - used to update data
+PATCH http://localhost:4004/odata/v4/CatalogService/EmployeeSet/75fb4c72-f161-4ceb-bb41-60c9093537b0
+Content-Type: application/json
+
+
+{
+    "salaryAmount": 10000000
+}
+
+
+###DELETE - Remove data from DB
+DELETE http://localhost:4004/odata/v4/CatalogService/EmployeeSet/75fb4c72-f161-4ceb-bb41-60c9093537b0
+
+###Test the V2 response
+GET http://localhost:4004/odata/v2/CatalogService/EmployeeSet
+
+###Test the V4 response
+GET http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+
+###Get the PO Data
+ http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A052
+
+
+####Lazy loading concept
+http://localhost:4004/odata/v2/CatalogService/CDSSet('74867AD200E41EDBA5D8B06B26EB6052')?$expand=To_Items
+
+
+###Calling the action on PO
+POST http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A052/boost
+Content-Type: application/json
+
+{}
+
+###Calling the action on PO - ID not found
+POST http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A053/boost
+Content-Type: application/json
+
+{}
+
+
+###Call the function
+http://localhost:4004/odata/v4/CatalogService/getLargestOrder()
+
+
+###Calling the function on PO - try update using function
+GET http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A052/tryUpdate
+
+
+###Get the PO Data of key - 74867AD200E41EDBA5D8B0C98DC2A052
+GET http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A052
+
+###Calling the function on PO - try to delete a record using function instead of action
+GET http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC2A052/tryDelete
+
+
+###Calling the function on PO - try to create a record using function instead of action
+GET http://localhost:4004/odata/v4/CatalogService/POs/tryInsert
+
+
+###Calling the function on PO - try to create a record using action
+POST http://localhost:4004/odata/v4/CatalogService/POs/insertEmp
+Content-Type: application/json
+
+{
+      "nameFirst": "Sachin",
+      "nameMiddle": null,
+      "nameLast": "T",
+      "nameInitials": null,
+      "sex": "M",
+      "language": "E",
+      "phoneNumber": "9876098989",
+      "email": "sachin.t@gamil.com",
+      "loginName": "SACHINT",
+      "Currency_code": "INR",
+      "salaryAmount": 989890,
+      "accountNumber": "88990098",
+      "bankId": "81000065",
+      "bankName": "SBI"
+}
+
+
+###Calling the function on PO - try to create a record using function instead of action
+GET http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+
+###Calling the function on PO - try to create a record using action - Incorrect call
+POST http://localhost:4004/odata/v4/CatalogService/insertEmp
+Content-Type: application/json
+
+{
+      "nameFirst": "Sachin",
+      "nameMiddle": null,
+      "nameLast": "T",
+      "nameInitials": null,
+      "sex": "M",
+      "language": "E",
+      "phoneNumber": "+1 224 374 524",
+      "email": "sachin.t@gamil.com",
+      "loginName": "SACHINT",
+      "Currency_code": "INR",
+      "salaryAmount": 989890,
+      "accountNumber": "88990098",
+      "bankId": "810000655",
+      "bankName": "SBI"
+}
+
+
+###Calling the function on PO - try to create a record using action - correct way to call
+POST http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+Content-Type: application/json
+
+{
+      "nameFirst": "Sachin",
+      "nameMiddle": null,
+      "nameLast": "T",
+      "nameInitials": null,
+      "sex": "M",
+      "language": "E",
+      "phoneNumber": "9789809890",
+      "email": "sachin.t@gamil.com",
+      "loginName": "SACHINT",
+      "Currency_code": "INR",
+      "salaryAmount": 980,
+      "accountNumber": "88990098",
+      "bankId": "81000055",
+      "bankName": "SBI"
+}
+
+###
+GET http://localhost:4004/odata/v4/MyService/EmployeeSrv
+
+### Validate UPDATE call on EmployeeSrv
+PATCH http://localhost:4004/odata/v4/CatalogService/EmployeeSet/02BD2137-0890-1EEA-A6C2-BB55C19787FB
+Content-Type: application/json
+
+{
+      "salaryAmount": 29800
+}
+
+
+
