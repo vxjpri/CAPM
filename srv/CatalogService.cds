@@ -11,7 +11,8 @@ service CatlogService @(path : 'CatalogService') {
 
     entity POs @( odata.draft.enabled: true,
                 Common.DefaultValuesFunction : 'loadInitials' 
-     ) as projection on transaction.purchaseorder {
+                ) 
+     as projection on transaction.purchaseorder {
         *,
         case OVERALL_STATUS
             when 'N' then 'New'
@@ -31,6 +32,11 @@ service CatlogService @(path : 'CatalogService') {
     }
     // instance of bound action
     actions {
+        @Common.SideEffects : {
+            TargetProperties : [
+                'in/GROSS_AMOUNT'
+            ]
+        }
         action boost() returns POs;
         function tryUpdate() returns POs;
         function tryDelete() returns POs;
