@@ -11,6 +11,24 @@ build-parameters:
         - npm ci
         - npx cds build --production
 modules:
+  - name: vxjcap02-ui
+    type: nodejs
+    path: app
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    requires:
+      - name: vxjcap02-auth
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          strictSSL: true
+          forwardAuthToken: true
+          url: '~{srv-url}'
+
   - name: vxjcap02-srv
     type: nodejs
     path: gen/srv
