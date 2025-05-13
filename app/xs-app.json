@@ -11,6 +11,12 @@
         "authenticationType": "xsuaa"
       },
       {
+        "source": "^/freestyle/(.*)",
+        "target": "$1",
+        "localDir": "freestyle/",
+        "authenticationType": "xsuaa"
+      },      
+      {
         "source": "^/(.*)$",
         "destination": "srv-api",
         "authenticationType": "xsuaa"
